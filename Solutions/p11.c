@@ -1,7 +1,7 @@
 #include <stdint.h>
 #include <stdio.h>
 
-static const uint8_t grid[] = {
+static const uint8_t grid[400] = {
  8,02,22,97,38,15,00,40,00,75,04,05,07,78,52,12,50,77,91, 8,
 49,49,99,40,17,81,18,57,60,87,17,40,98,43,69,48,04,56,62,00,
 81,49,31,73,55,79,14,29,93,71,40,67,53,88,30,03,49,13,36,65,
@@ -24,14 +24,14 @@ static const uint8_t grid[] = {
 01,70,54,71,83,51,54,69,16,92,33,48,61,43,52,01,89,19,67,48,
 };
 
-static const uint8_t coords[] = {
-    24,17,10,3,   24,31,38,45,  // N/S
-    24,18,12,6,   24,30,36,42,  // NE/SW
-    24,25,26,27,  24,23,22,21,  // E/W
-    24,16,8,0,    24,32,40,48,  // NW/SE
+static const uint8_t coords[32] = {
+    24,17,10,3,   24,31,38,45,      // N/S
+    24,18,12,6,   24,30,36,42,      // NE/SW
+    24,25,26,27,  24,23,22,21,      // E/W
+    24,16,8,0,    24,32,40,48,      // NW/SE
 };
 
-// 11/10/2018
+// 15/10/2018
 
 unsigned getLargestProduct(unsigned x, unsigned y);
 unsigned getLargestProductOfGrid();
@@ -39,12 +39,21 @@ unsigned getLargestProductOfGrid();
 unsigned getLargestProduct(unsigned x, unsigned y)
 {
     unsigned result = 0;
-    unsigned offset = x * 7 + y; // 7x7 grid
-    for (unsigned i = 0; i < sizeof(coords); i+=4)
-    {
+    static uint8_t buffer[7*7]; // static, doesn't need to be allocated and freed multiple times
+    unsigned c = 0;
+    // Fill buffer with grid[x, y]
+    for (unsigned row = y; row < 7 + y; row++) {
+        for (unsigned collumn = x; collumn < 7 + x; collumn++) {
+            buffer[c] = grid[row * 20 + collumn];
+            c++;
+        }
+    }
+    // Calculate products for directions and find the largest one
+    for (unsigned i = 0; i < sizeof(coords); i+=4) {
         unsigned product = 1;
-        for (unsigned j = i; j < i+4; j++)
-            product *= grid[coords[j]+offset];
+        for (unsigned j = i; j < i+4; j++) {
+            product *= buffer[coords[j]];
+        }
         if (product > result) result = product;
     }
     return result;
@@ -53,8 +62,8 @@ unsigned getLargestProduct(unsigned x, unsigned y)
 unsigned getLargestProductOfGrid()
 {
     unsigned result = 0, n = 0;
-    for (unsigned x = 0; x <= 20; x++) 
-        for (unsigned y = 0; y <= 20; y++)
+    for (unsigned y = 0; y <= 20 - 7; y++) 
+        for (unsigned x = 0; x <= 20 - 7; x++)
             if ((n = getLargestProduct(x, y)) > result) result = n;
     return result;
 }
