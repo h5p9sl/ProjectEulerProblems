@@ -1,5 +1,6 @@
-#include <iostream>
+#include <stdio.h>
 #include <stdint.h>
+#include <stdbool.h>
 
 // 05/10/2018
 // Edited & optimized on 11/10/2018
@@ -31,6 +32,6 @@ uint64_t largestPalindrome()
 
 int main()
 {
-    std::cout << largestPalindrome() << " is the largest Palindrome made from two 3-digit factors." << std::endl;
+    printf("%u is the largest Palindrome made from two 3-digit factors.", largestPalindrome());
     return 0;
 }

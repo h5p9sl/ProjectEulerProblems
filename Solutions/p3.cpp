@@ -4,15 +4,15 @@
 
 // 07/06/2018
 
-unsigned long long divide(unsigned long long x);
-bool inline isPrime(unsigned long long x);
-void addPrimeNumbers(unsigned long long x);
+uint64_t divide(uint64_t x);
+bool inline isPrime(uint64_t x);
+void addPrimeNumbers(uint64_t x);
 
-std::vector<unsigned long long> PrimeNumbers;
+std::vector<uint64_t> PrimeNumbers;
 
 int main()
 {
-	const unsigned long long foo = 600851475143;
+	const uint64_t foo = 600851475143;
 
 	// Find all prime numbers and add them to the vector
 	addPrimeNumbers(foo);
@@ -43,12 +43,12 @@ int main()
 	return 0;
 }
 
-void addPrimeNumbers(unsigned long long j)
+void addPrimeNumbers(uint64_t j)
 {
-	unsigned long long foo = j;
+	uint64_t foo = j;
 	while (!isPrime(foo))
 	{
-		unsigned long long x = divide(foo);
+		uint64_t x = divide(foo);
 		foo /= x;
 		if (isPrime(x)) {
 			PrimeNumbers.push_back(x);
@@ -60,19 +60,14 @@ void addPrimeNumbers(unsigned long long j)
 	PrimeNumbers.push_back(foo);
 }
 
-bool inline isPrime(unsigned long long x)
+bool inline isPrime(uint64_t x)
 {
 	return (divide(x) == 1) ? true : false;
 }
 
-unsigned long long divide(unsigned long long x)
+uint64_t divide(uint64_t x)
 {
-	//for (unsigned long long i = x-1; i > 1; i--)
-	//{
-	//	if (x % i == 0) // x is divisible by i
-	//		return i;
-	//}
-	for (unsigned long long i = 2; i < x; i++)
+	for (uint64_t i = 2; i < x; i++)
 	{
 		if (x % i == 0) // x is divisible by i
 			return i;

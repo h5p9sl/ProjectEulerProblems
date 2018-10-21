@@ -1,16 +1,15 @@
 #include <stdio.h>
+#include <stdint.h>
 
 // 06/06/2018
 
-typedef unsigned long long uLLong;
-
 int main()
 {
-	uLLong sum = 0;
-	uLLong foo[2] = { 0, 1 };
+	uint64_t sum = 0;
+	uint64_t foo[2] = { 0, 1 };
 	while(foo[1] <= 4000000)
 	{
-		uLLong bar = foo[0] + foo[1];
+		uint64_t bar = foo[0] + foo[1];
 		if (bar % 2 == 0) {
 			sum += bar;
 		}
